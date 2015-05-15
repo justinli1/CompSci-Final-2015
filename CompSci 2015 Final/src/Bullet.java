@@ -7,7 +7,7 @@ public class Bullet {
 	private double xIncrement, yIncrement;
 	private double tarAngle;
 	
-	private int speed = 15;
+	private int speed = 10;
 	
 	private int width = 10, height = 10;
 

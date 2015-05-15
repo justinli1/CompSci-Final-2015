@@ -15,7 +15,7 @@ public class Enemy {
 	
 	public void update() {
 		Bullet test = new Bullet(x, y, playerReference.getX(), playerReference.getY());
-		//Game.bullets.add(test);
+		Game.bullets.add(test);
 	}
 	
 	public void draw(Graphics graphics){

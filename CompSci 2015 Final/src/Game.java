@@ -38,7 +38,6 @@ public class Game extends Canvas implements Runnable{
 		for(int i = 0; i < bullets.size(); i++){
 			bullets.get(i).update();
 		}
-		System.out.println(bullets.size());
 		enemy.update(); //test
 	}
 	
