@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable{
 	//screen dimensions and variables
-	static final int WIDTH = 800;
+	static final int WIDTH = 1024;
 	static final int HEIGHT = WIDTH / 4 * 3; //4:3 aspect ratio
 	private JFrame frame;
 
@@ -24,7 +24,7 @@ public class Game extends Canvas implements Runnable{
 	
 	public static ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	
-	private Enemy enemy;
+	private Enemy enemy; //temp
 		
 	//initialize game objects, load media(pics, music, etc)
 	public void init() {
@@ -38,7 +38,7 @@ public class Game extends Canvas implements Runnable{
 		for(int i = 0; i < bullets.size(); i++){
 			bullets.get(i).update();
 		}
-		
+		System.out.println(bullets.size());
 		enemy.update(); //test
 	}
 	

@@ -3,13 +3,13 @@ import java.awt.Graphics;
 
 
 public class Bullet {
-	double x,y;
-	double xIncrement, yIncrement;
-	double tarAngle;
+	private double x,y;
+	private double xIncrement, yIncrement;
+	private double tarAngle;
 	
-	int speed = 5;
+	private int speed = 15;
 	
-	int width = 10, height = 10;
+	private int width = 10, height = 10;
 
 	public Bullet(int x, int y, int targetX, int targetY){
 		this.x = x;
@@ -33,13 +33,16 @@ public class Bullet {
 	
 	private void updatePosition(){	
 		x += xIncrement;
-		y += yIncrement;	
+		y += yIncrement;
+		
+		if(x < 0 || y < 0 || x > Game.WIDTH || y > Game.HEIGHT){
+			Game.bullets.remove(this);
+		}
 	}
 	
 	public void draw(Graphics graphics){
 		graphics.setColor(Color.green);
 		graphics.fillRect((int)x, (int)y, width, height);
-		
 		
 	}
 }

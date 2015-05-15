@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Input implements KeyListener{
-	Map<Integer, Boolean> key = new HashMap<Integer, Boolean>();
+	private Map<Integer, Boolean> key = new HashMap<Integer, Boolean>();
 	
 	public void keyPressed(KeyEvent e) {
 		key.put(e.getKeyCode(), true);

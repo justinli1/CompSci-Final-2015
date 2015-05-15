@@ -2,10 +2,10 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
 public class Player {
-	int x, y;
-	int width, height;
+	private int x, y;
+	private int width, height;
 	
-	int speed = 5;
+	private int speed = 5;
 	
 	public Player(){
 		x = 0;
@@ -41,7 +41,7 @@ public class Player {
 	
 	private void updateShoot(Input in){
 		if(in.getKey(KeyEvent.VK_Z)){
-			Bullet test = new Bullet(x + width/2, y, 400, 0);
+			Bullet test = new Bullet(getCentre() - 5, y, getCentre() - 5, 0);
 			Game.bullets.add(test);
 		}
 	}
