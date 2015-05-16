@@ -1,7 +1,11 @@
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable{
@@ -24,12 +28,17 @@ public class Game extends Canvas implements Runnable{
 	
 	public static ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	
-	private Enemy enemy; //temp
+	private Enemy enemy; //tempi
+	private Background bg1;
+	private Background fg1;
 		
 	//initialize game objects, load media(pics, music, etc)
 	public void init() {
 		player = new Player();
 		enemy = new Enemy(400, 0, player); //test
+		
+		bg1 = new Background("res/bg1.png", 2);
+		fg1 = new Background("res/fg1.png", 8);
 	}
 	
 	//update game objects
@@ -38,20 +47,25 @@ public class Game extends Canvas implements Runnable{
 		for(int i = 0; i < bullets.size(); i++){
 			bullets.get(i).update();
 		}
-		enemy.update(); //test
+		enemy.update();//test
+		
+		bg1.update();
+		fg1.update();
 	}
 	
 	//draw things to the screen
 	public void draw() {
-		graphics.setColor(Color.white);
-		graphics.fillRect(0, 0, WIDTH, HEIGHT);
-		
+
+		bg1.draw(graphics);
+
 		graphics.setColor(Color.gray);
 		player.draw(graphics);
 		
 		for(int i = 0; i < bullets.size(); i++){
 			bullets.get(i).draw(graphics);
 		}
+
+		fg1.draw(graphics);
 		
 		enemy.draw(graphics); //test
 	}
