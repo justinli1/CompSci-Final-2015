@@ -1,7 +1,9 @@
+/Background.class
+/Bullet.class
+/Enemy.class
+/EnemyHeavy.class
+/EnemyLight.class
 /Game.class
 /Input.class
 /Player.class
-/Background.class
 /UI.class
-/EnemyLight.class
-/EnemyHeavy.class

@@ -46,8 +46,8 @@ public class Game extends Canvas implements Runnable{
 		Enemy enemyLight = new EnemyLight(200, 0, player);
 		enemies.add(enemyLight); //test
 		
-		Enemy enemyHeavy = new EnemyHeavy(400, 0, player);
-		enemies.add(enemyHeavy);
+		Enemy enemyHeavy = new EnemyHeavy(400, 0, player); //test
+		enemies.add(enemyHeavy); //test
 		
 		ui = new UI(this, player);
 		score = 0;
@@ -71,6 +71,7 @@ public class Game extends Canvas implements Runnable{
 		fg1.update();
 		
 		ui.update();
+		
 	}
 	
 	//draw things to the screen
