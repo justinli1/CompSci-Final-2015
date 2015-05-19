@@ -26,25 +26,34 @@ public class Game extends Canvas implements Runnable{
 	private Input input = new Input();
 	
 	public static ArrayList<Bullet> bullets = new ArrayList<Bullet>();
+	public static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
 	
 	private UI ui;
-	public int score;
+	public static int score;
 	
 	private Player player;
-	private Enemy enemy; //temp
+
 	private Background bg1;
 	private Background fg1;
 		
 	//initialize game objects, load media(pics, music, etc)
 	public void init() {
 		player = new Player(200, Game.HEIGHT);
-		enemy = new Enemy(400, 0, player); //test
+		
+		Enemy enemy = new Enemy(300, 0, player); //test
+		enemies.add(enemy); //test
+		
+		Enemy enemyLight = new EnemyLight(200, 0, player);
+		enemies.add(enemyLight); //test
+		
+		Enemy enemyHeavy = new EnemyHeavy(400, 0, player);
+		enemies.add(enemyHeavy);
 		
 		ui = new UI(this, player);
 		score = 0;
 		
-		bg1 = new Background("res/bg1.png", 2);
-		fg1 = new Background("res/fg1.png", 8);
+		bg1 = new Background("res/bg1.jpg", 2);
+		fg1 = new Background("res/fg1.png", 12);
 	}
 	
 	//update game objects
@@ -54,28 +63,35 @@ public class Game extends Canvas implements Runnable{
 			bullets.get(i).update();
 		}
 		
-		enemy.update();//test
+		for(int i = 0; i < enemies.size(); i++){
+			enemies.get(i).update();
+		}
 		
 		bg1.update();
 		fg1.update();
+		
+		ui.update();
 	}
 	
 	//draw things to the screen
 	public void draw() {
 		graphics.fillRect(0, 0, WIDTH, HEIGHT);
 		bg1.draw(graphics);
+		fg1.draw(graphics);
 
-		graphics.setColor(Color.gray);
-		player.draw(graphics);
-		
 		for(int i = 0; i < bullets.size(); i++){
 			bullets.get(i).draw(graphics);
 		}
-
-		fg1.draw(graphics);
 		
-		enemy.draw(graphics); //test
+		for(int i = 0; i < enemies.size(); i++){
+			enemies.get(i).draw(graphics);
+		}
 		
+		ui.draw(graphics);
+		graphics.setColor(Color.green);
+		player.draw(graphics);
+		
+		graphics.setColor(Color.red);
 		graphics.drawString("X: " + input.mx + " Y: " + input.my, input.mx, input.my);
 	}
 	

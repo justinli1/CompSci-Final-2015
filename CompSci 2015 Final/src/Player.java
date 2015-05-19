@@ -1,10 +1,18 @@
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.sql.Time;
+
+import javax.imageio.ImageIO;
 
 public class Player {
 	private int x, y;
 	private int width, height;
+	private Rectangle2D collision;
 	
 	private int speed = 5;
 	private int health;
@@ -13,6 +21,8 @@ public class Player {
 	
 	private int shootCooldown = 1;
 	private int shootTime;
+	
+	private BufferedImage sprite;
 	
 	public Player(int x, int y){
 		this.x = x;
@@ -24,12 +34,20 @@ public class Player {
 		this.power = 1;
 		this.speedBoost = 0;
 		
+		this.collision = new Rectangle(x, y, width, height);
 		this.shootTime = (int)System.currentTimeMillis()/100;
+		
+		try {
+			sprite = ImageIO.read(new File("res/player/sprite.png"));
+		} catch (IOException e) {
+			System.out.println("File not found");
+		}
 	}
 	
 	public void update(Input in){
 		updatePosition(in);
-		updateBoundary();
+		checkBoundary();
+		updateCollision();
 		updateShoot(in);
 	}
 	
@@ -53,21 +71,24 @@ public class Player {
 		}
 	}
 	
-	private void updateBoundary(){
-		if(x < 0)
-			x = 0;
-		else if(x + width > Game.WIDTH)
-			x = Game.WIDTH - width;
+	private void checkBoundary(){
+		if(x < 51)
+			x = 51;
+		else if(x + width > 665)
+			x = 665 - width;
 		if(y < 0)
 			y = 0;
 		else if(y + height > Game.HEIGHT)
 			y = Game.HEIGHT - height;
 	}
 	
+	private void updateCollision(){
+		this.collision.setRect(x, y, width, height);
+	}
+	
 	private void updateShoot(Input in){
-		
 		if(in.getKey(KeyEvent.VK_Z) && (int)System.currentTimeMillis()/100 - shootTime > shootCooldown){
-			Bullet test = new Bullet(getCentre() - 5, y, getCentre() - 5, 0);
+			Bullet test = new Bullet(getXCentre() - 5, y, getXCentre() - 5, 0, 10,null);
 			Game.bullets.add(test);
 			
 			shootTime = (int)System.currentTimeMillis()/100;
@@ -75,7 +96,8 @@ public class Player {
 	}
 	
 	public void draw(Graphics graphics){
-		graphics.fillRect(x, y, width, height);
+		graphics.drawRect(x, y, width, height);
+		graphics.drawImage(sprite, x, y, null);
 	}
 	
 	public int getX(){
@@ -86,10 +108,18 @@ public class Player {
 		return y;
 	}
 	
-	public int getCentre(){
+	public int getXCentre(){
 		return x + (width/2);
 	}
+	
+	public int getYCentre(){
+		return y + (height/2);
+	}
 
+	public Rectangle2D getCollision(){
+		return collision;
+	}
+	
 	public int getHealth() {
 		return health;
 	}
