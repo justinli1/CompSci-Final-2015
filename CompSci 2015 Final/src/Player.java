@@ -7,17 +7,24 @@ public class Player {
 	private int width, height;
 	
 	private int speed = 5;
+	private int health;
+	private int power;
+	private int speedBoost;
 	
 	private int shootCooldown = 1;
 	private int shootTime;
 	
-	public Player(){
-		x = 0;
-		y = 0;
-		width = 50;
-		height = 50;
+	public Player(int x, int y){
+		this.x = x;
+		this.y = y;
+		this.width = 50;
+		this.height = 50;
 		
-		shootTime = (int)System.currentTimeMillis()/100;
+		this.health = 3;
+		this.power = 1;
+		this.speedBoost = 0;
+		
+		this.shootTime = (int)System.currentTimeMillis()/100;
 	}
 	
 	public void update(Input in){
@@ -82,4 +89,30 @@ public class Player {
 	public int getCentre(){
 		return x + (width/2);
 	}
+
+	public int getHealth() {
+		return health;
+	}
+
+	public void setHealth(int health) {
+		this.health = health;
+	}
+
+	public int getPower() {
+		return power;
+	}
+
+	public void setPower(int power) {
+		this.power = power;
+	}
+
+	public int getSpeedBoost() {
+		return speedBoost;
+	}
+
+	public void setSpeedBoost(int speedBoost) {
+		this.speedBoost = speedBoost;
+	}
+	
+	
 }

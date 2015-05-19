@@ -23,19 +23,25 @@ public class Game extends Canvas implements Runnable{
 	
 	//used for drawing items to the screen
 	private Graphics2D graphics;
-	private Player player;
 	private Input input = new Input();
 	
 	public static ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	
-	private Enemy enemy; //tempi
+	private UI ui;
+	public int score;
+	
+	private Player player;
+	private Enemy enemy; //temp
 	private Background bg1;
 	private Background fg1;
 		
 	//initialize game objects, load media(pics, music, etc)
 	public void init() {
-		player = new Player();
+		player = new Player(200, Game.HEIGHT);
 		enemy = new Enemy(400, 0, player); //test
+		
+		ui = new UI(this, player);
+		score = 0;
 		
 		bg1 = new Background("res/bg1.png", 2);
 		fg1 = new Background("res/fg1.png", 8);
@@ -47,6 +53,7 @@ public class Game extends Canvas implements Runnable{
 		for(int i = 0; i < bullets.size(); i++){
 			bullets.get(i).update();
 		}
+		
 		enemy.update();//test
 		
 		bg1.update();
@@ -55,7 +62,7 @@ public class Game extends Canvas implements Runnable{
 	
 	//draw things to the screen
 	public void draw() {
-
+		graphics.fillRect(0, 0, WIDTH, HEIGHT);
 		bg1.draw(graphics);
 
 		graphics.setColor(Color.gray);
@@ -68,6 +75,8 @@ public class Game extends Canvas implements Runnable{
 		fg1.draw(graphics);
 		
 		enemy.draw(graphics); //test
+		
+		graphics.drawString("X: " + input.mx + " Y: " + input.my, input.mx, input.my);
 	}
 	
 	public static void main(String[] args) {
@@ -89,6 +98,7 @@ public class Game extends Canvas implements Runnable{
 
 		//KEYBOARD and MOUSE handling code goes here
 		addKeyListener(input);
+		addMouseMotionListener(input);
 	}
 
 	//starts a new thread for the game
