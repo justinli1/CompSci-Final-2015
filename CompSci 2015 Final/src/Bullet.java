@@ -9,7 +9,7 @@ public class Bullet {
 	private double xIncrement, yIncrement;
 	private double tarAngle;
 	
-	private int speed; //10
+	private int speed;
 	
 	private int width = 10, height = 10;
 	private Rectangle2D collision;
@@ -53,7 +53,8 @@ public class Bullet {
 		
 		if(player != null){
 			if(collision.intersects(player.getCollision())){
-				player.setHealth(player.getHealth() - 1);
+				if(player.getHealth() > 0)
+					player.setHealth(player.getHealth() - 1);
 				Game.bullets.remove(this);
 			}
 		}
