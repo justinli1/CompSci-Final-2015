@@ -12,8 +12,9 @@ public class Background {
 	private BufferedImage background;
 	
 	public Background(String fileName, int scrollSpeed){
+		this.y = -Game.HEIGHT;
+		
 		this.background = null;
-		this.y = -768;
 		try {
 			this.background = ImageIO.read(new File(fileName));
 		} catch (IOException e) {
@@ -27,7 +28,7 @@ public class Background {
 		y += scrollSpeed;
 		
 		if(y > 0)
-			y = -768;
+			y = -Game.HEIGHT;
 	}
 	
 	public void draw(Graphics graphics){
