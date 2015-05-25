@@ -7,7 +7,7 @@ import java.awt.geom.Rectangle2D;
 public class Bullet {
 	private double x,y;
 	private double xIncrement, yIncrement;
-	private double tarAngle;
+	private double targetAngle;
 	
 	private int speed;
 	
@@ -28,10 +28,10 @@ public class Bullet {
 	private void vectorize(int x, int y, int targetX, int targetY){
 		double xComponent = (targetX - x);
 		double yComponent = (targetY - y);
-		tarAngle = Math.atan2(yComponent, xComponent);
+		targetAngle = Math.atan2(yComponent, xComponent);
 		
-		xIncrement = (speed*Math.cos(tarAngle));
-		yIncrement = (speed*Math.sin(tarAngle));
+		xIncrement = (speed*Math.cos(targetAngle));
+		yIncrement = (speed*Math.sin(targetAngle));
 	}
 	
 	public void update(){
@@ -51,7 +51,7 @@ public class Bullet {
 	private void updateCollision(Player player){
 		collision.setRect(x, y, width, height);
 		
-		if(player != null){
+		if(player != null){ //player collision
 			if(collision.intersects(player.getCollision())){
 				if(player.getHealth() > 0)
 					player.setHealth(player.getHealth() - 1);
@@ -59,12 +59,11 @@ public class Bullet {
 			}
 		}
 		
-		else{
+		else{ //enemy collision
 			for(int i = 0; i < Game.enemies.size(); i++){
 				if(collision.intersects(Game.enemies.get(i).getCollision() )){
-					Game.enemies.remove(i);
+					Game.enemies.get(i).setHealth(Game.enemies.get(i).getHealth() - 1);;
 					Game.bullets.remove(this);
-					Game.score += 1000;
 				}
 			}
 		}

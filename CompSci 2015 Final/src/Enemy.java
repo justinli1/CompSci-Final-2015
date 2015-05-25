@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 
 public class Enemy {
@@ -22,7 +21,9 @@ public class Enemy {
 		this.y = y;
 		this.playerReference = player;
 		this.collision = new Rectangle(x, y, width, height);
-		this.setSpeed(2);
+		
+		setHealth(3);
+		setSpeed(2);
 		
 		this.shootTime = (int)System.currentTimeMillis()/100;
 	}
@@ -38,6 +39,10 @@ public class Enemy {
 		
 		if(y > Game.HEIGHT)
 			Game.enemies.remove(this);
+		if(health <= 0){
+			Game.enemies.remove(this);
+			Game.score += 1000;
+		}
 	}
 	
 	private void updateShoot(){
@@ -100,6 +105,16 @@ public class Enemy {
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+	
+
+	public int getHealth() {
+		return health;
+	}
+	
+
+	public void setHealth(int health) {
+		this.health = health;
 	}
 	
 	
