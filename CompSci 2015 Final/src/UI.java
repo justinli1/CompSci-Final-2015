@@ -33,11 +33,6 @@ public class UI {
 		fg1.update();
 	}
 	
-	private void shake(int time){
-		int endTime = (int)System.currentTimeMillis()/100 + time;
-		
-	}
-	
 	public void draw(Graphics graphics){
 		bg1.draw(graphics);
 		fg1.draw(graphics);
