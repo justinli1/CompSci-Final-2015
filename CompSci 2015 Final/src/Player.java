@@ -18,6 +18,7 @@ public class Player {
 	private int speed = 5;
 	
 	private int[] stats = new int[5];
+	private int invincibleTime;
 	
 	private int shootCooldown = 1;
 	private int shootTime;
@@ -36,6 +37,8 @@ public class Player {
 		this.stats[BOMBS] = 1;
 		this.stats[INVINCIBILITY] = 0;
 		
+		this.invincibleTime = (int)System.currentTimeMillis()/100;
+		
 		this.collision = new Rectangle(x, y, width, height);
 		this.shootTime = (int)System.currentTimeMillis()/100;
 		
@@ -48,9 +51,15 @@ public class Player {
 	
 	public void update(Input in){
 		updatePosition(in);
+		updateStats();
 		checkBoundary();
 		updateCollision();
 		updateShoot(in);
+		
+		//FIX TIME CALCULATIONS, THEY ARE WRONG
+		System.out.println("i: " + stats[INVINCIBILITY]);
+		System.out.println("t: " + (((int)System.currentTimeMillis()/100) - invincibleTime));
+		System.out.println(System.currentTimeMillis()/100);
 	}
 	
 	private void updatePosition(Input in){
@@ -70,6 +79,24 @@ public class Player {
 		}
 		else if(in.getKey(KeyEvent.VK_RIGHT)){
 			x+= speed;
+		}
+	}
+	
+	public void updateStats(){
+		if(stats[HEALTH] > 3)
+			stats[HEALTH] = 3;
+		if(stats[POWER] > 3)
+			stats[POWER] = 3;
+		if(stats[SPEEDBOOST] > 3)
+			stats[SPEEDBOOST] = 3;
+		if(stats[BOMBS] > 3)
+			stats[BOMBS] = 3;
+		
+		if((int)System.currentTimeMillis()/100 > invincibleTime){
+			stats[HEALTH] = 3;
+		}
+		else{
+			stats[INVINCIBILITY]  = 0;
 		}
 	}
 	
@@ -99,7 +126,11 @@ public class Player {
 	
 	private void performUpgrade(int[] upgrade){
 		for(int i = 0; i < upgrade.length; i++){
-			stats[i] += upgrade[i];
+			stats[4] += upgrade[i]; //TEST LOCK AT 4 (INVIN)
+		}
+		
+		if(stats[INVINCIBILITY] >= 1){
+			invincibleTime = ((int)System.currentTimeMillis()/100) * stats[INVINCIBILITY] * 50; 
 		}
 	}
 	
