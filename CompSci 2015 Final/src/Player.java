@@ -9,14 +9,15 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Player {
+	public static final int HEALTH = 0, POWER = 1, SPEEDBOOST = 2, BOMBS = 3, INVINCIBILITY = 4;
+	
 	private int x, y;
 	private int width, height;
 	private Rectangle2D collision;
 	
 	private int speed = 5;
-	private int health;
-	private int power;
-	private int speedBoost;
+	
+	private int[] stats = new int[5];
 	
 	private int shootCooldown = 1;
 	private int shootTime;
@@ -29,9 +30,11 @@ public class Player {
 		this.width = 50;
 		this.height = 50;
 		
-		this.health = 3;
-		this.power = 1;
-		this.speedBoost = 0;
+		this.stats[HEALTH] = 3;
+		this.stats[POWER] = 1;
+		this.stats[SPEEDBOOST] = 0;
+		this.stats[BOMBS] = 1;
+		this.stats[INVINCIBILITY] = 0;
 		
 		this.collision = new Rectangle(x, y, width, height);
 		this.shootTime = (int)System.currentTimeMillis()/100;
@@ -83,6 +86,21 @@ public class Player {
 	
 	private void updateCollision(){
 		this.collision.setRect(x, y, width, height);
+		
+		for(int i = 0; i < Game.powerUps.size(); i++){
+			PowerUp current = Game.powerUps.get(i);
+			
+			if(collision.intersects(current.getCollision())){
+				performUpgrade(current.getUpgrade());
+				Game.powerUps.remove(current);
+			}
+		}
+	}
+	
+	private void performUpgrade(int[] upgrade){
+		for(int i = 0; i < upgrade.length; i++){
+			stats[i] += upgrade[i];
+		}
 	}
 	
 	private void updateShoot(Input in){
@@ -120,27 +138,27 @@ public class Player {
 	}
 	
 	public int getHealth() {
-		return health;
+		return stats[HEALTH];
 	}
 
 	public void setHealth(int health) {
-		this.health = health;
+		this.stats[HEALTH] = health;
 	}
 
 	public int getPower() {
-		return power;
+		return stats[POWER];
 	}
 
 	public void setPower(int power) {
-		this.power = power;
+		this.stats[POWER] = power;
 	}
 
 	public int getSpeedBoost() {
-		return speedBoost;
+		return stats[SPEEDBOOST];
 	}
 
 	public void setSpeedBoost(int speedBoost) {
-		this.speedBoost = speedBoost;
+		this.stats[SPEEDBOOST] = speedBoost;
 	}
 	
 	

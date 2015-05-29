@@ -1,11 +1,7 @@
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable{
@@ -27,6 +23,7 @@ public class Game extends Canvas implements Runnable{
 	
 	public static ArrayList<Bullet> bullets = new ArrayList<Bullet>();
 	public static ArrayList<Enemy> enemies = new ArrayList<Enemy>();
+	public static ArrayList<PowerUp> powerUps = new ArrayList<PowerUp>();
 	
 	private UI ui;
 	public static int score;
@@ -48,6 +45,7 @@ public class Game extends Canvas implements Runnable{
 		
 		ui = new UI(this, player);
 		score = 0;
+		
 	}
 	
 	//update game objects
@@ -61,7 +59,12 @@ public class Game extends Canvas implements Runnable{
 			enemies.get(i).update();
 		}
 		
+		for(int i = 0; i < powerUps.size(); i++){
+			powerUps.get(i).update();
+		}
+		
 		ui.update();
+		
 	}
 	
 	//draw things to the screen
@@ -76,6 +79,10 @@ public class Game extends Canvas implements Runnable{
 		
 		for(int i = 0; i < enemies.size(); i++){
 			enemies.get(i).draw(graphics);
+		}
+		
+		for(int i = 0; i < powerUps.size(); i++){
+			powerUps.get(i).draw(graphics);
 		}
 		
 		graphics.setColor(Color.green);

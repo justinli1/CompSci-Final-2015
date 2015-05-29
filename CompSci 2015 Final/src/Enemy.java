@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -42,6 +43,17 @@ public class Enemy {
 		if(health <= 0){
 			Game.enemies.remove(this);
 			Game.score += 1000;
+			
+			createPowerUp();
+		}
+	}
+	
+	private void createPowerUp(){
+		int random = (int)(Math.random()*10);
+		
+		if(random < 5){
+			PowerUp powerUp = new PowerUp(getXCentre(), getYCentre(), random);
+			Game.powerUps.add(powerUp);
 		}
 	}
 	
@@ -107,11 +119,9 @@ public class Enemy {
 		this.speed = speed;
 	}
 	
-
 	public int getHealth() {
 		return health;
 	}
-	
 
 	public void setHealth(int health) {
 		this.health = health;

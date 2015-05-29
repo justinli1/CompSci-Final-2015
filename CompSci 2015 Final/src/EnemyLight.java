@@ -1,4 +1,6 @@
 
+
+
 public class EnemyLight extends Enemy{
 
 	public EnemyLight(int x, int y, Player player) {
