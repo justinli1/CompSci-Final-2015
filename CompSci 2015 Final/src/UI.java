@@ -9,6 +9,7 @@ public class UI {
 	private int healthDisplay;
 	private int powerDisplay;
 	private int speedDisplay;
+	private int bombDisplay;
 	
 	private Background bg1;
 	private Background fg1;
@@ -24,10 +25,12 @@ public class UI {
 	}
 	
 	public void update(){
+		scoreDisplay = Game.score;
+		
 		healthDisplay = player.getHealth();
 		powerDisplay = player.getPower();
 		speedDisplay = player.getSpeedBoost();
-		scoreDisplay = Game.score;
+		bombDisplay = player.getBombs();
 		
 		bg1.update();
 		fg1.update();
@@ -52,6 +55,11 @@ public class UI {
 		graphics.drawString("SPEED", x + 689, 240);
 		graphics.drawRect(x + 689, 240, 312, 48);
 		graphics.fillRect(x + 689, 240, 104*speedDisplay, 48);
+		
+		graphics.drawString("BOMBS", x + 689, 336);
+		graphics.drawRect(x + 689, 336, 312, 48);
+		graphics.fillRect(x + 689, 336, 104*bombDisplay, 48);
+		
 	}
 	
 }

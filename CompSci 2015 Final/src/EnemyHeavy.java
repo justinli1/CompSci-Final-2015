@@ -1,6 +1,4 @@
 
-
-
 public class EnemyHeavy extends Enemy{
 
 	public EnemyHeavy(int x, int y, Player player) {
@@ -9,7 +7,7 @@ public class EnemyHeavy extends Enemy{
 		setWidth(75);
 		setHeight(75);
 		setShootCooldown(15);
-		setSpeed(1);
+		setSpeed(0); //TEST re(1)
 	}
 	
 }
