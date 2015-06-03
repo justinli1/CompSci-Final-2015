@@ -7,8 +7,7 @@ import java.awt.geom.Rectangle2D;
 public class Enemy {
 	private int x, y;
  	private int width = 50, height = 50;
-	
- 	private Player playerReference;
+
  	private Rectangle2D collision;
  	
  	private int health;
@@ -17,22 +16,27 @@ public class Enemy {
 	private int shootCooldown = 12;
 	private int shootTime;
 	
-	public Enemy(int x, int y, Player player) {
+	private boolean active;
+	
+	public Enemy(int x, int y) {
 		this.x = x;
 		this.y = y;
-		this.playerReference = player;
 		this.collision = new Rectangle(x, y, width, height);
 		
 		setHealth(3);
 		setSpeed(2);
 		
+		this.active = false;
 		this.shootTime = (int)System.currentTimeMillis()/100;
 	}
 	
 	public void update() {
 		updatePosition();
-		updateShoot();
-		updateCollision();
+		
+		if(active){
+			updateShoot();
+			updateCollision();
+		}
 	}
 	
 	private void updatePosition(){
@@ -40,6 +44,9 @@ public class Enemy {
 		
 		if(y > Game.HEIGHT)
 			Game.enemies.remove(this);
+		if(y < Game.HEIGHT && y > 0)
+			active = true;
+		
 		if(health <= 0){
 			Game.enemies.remove(this);
 			Game.score += 1000;
@@ -59,7 +66,7 @@ public class Enemy {
 	
 	private void updateShoot(){
 		if((int)System.currentTimeMillis()/100 - shootTime > shootCooldown){
-			Bullet test = new Bullet(getXCentre(), getYCentre(), playerReference.getXCentre(), playerReference.getYCentre(), 5, playerReference);
+			Bullet test = new Bullet(getXCentre(), getYCentre(), Game.player.getXCentre(), Game.player.getYCentre(), 5, Game.player);
 			Game.bullets.add(test);
 			
 			shootTime = (int)System.currentTimeMillis()/100;

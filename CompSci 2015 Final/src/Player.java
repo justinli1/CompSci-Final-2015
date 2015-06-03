@@ -55,9 +55,6 @@ public class Player {
 		checkBoundary();
 		updateCollision();
 		updateShoot(in);
-		
-		System.out.println("i: " + stats[INVINCIBILITY]);
-		System.out.println("t: " + (((int)System.currentTimeMillis()/100) - invincibleTime));
 	}
 	
 	private void updatePosition(Input in){

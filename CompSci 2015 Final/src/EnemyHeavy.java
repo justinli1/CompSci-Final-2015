@@ -1,8 +1,8 @@
-
+ 
 public class EnemyHeavy extends Enemy{
 
-	public EnemyHeavy(int x, int y, Player player) {
-		super(x, y, player);
+	public EnemyHeavy(int x, int y) {
+		super(x, y);
 		
 		setWidth(75);
 		setHeight(75);

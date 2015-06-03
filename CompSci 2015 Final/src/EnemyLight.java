@@ -3,8 +3,8 @@
 
 public class EnemyLight extends Enemy{
 
-	public EnemyLight(int x, int y, Player player) {
-		super(x, y, player);
+	public EnemyLight(int x, int y) {
+		super(x, y);
 		
 		setWidth(25);
 		setHeight(25);	

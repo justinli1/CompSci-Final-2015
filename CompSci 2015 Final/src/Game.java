@@ -28,19 +28,19 @@ public class Game extends Canvas implements Runnable{
 	private UI ui;
 	public static int score;
 	
-	private Player player;
+	public static Player player;
 	
 	//initialize game objects, load media(pics, music, etc)
 	public void init() {
 		player = new Player(200, Game.HEIGHT);
 		
-		Enemy enemy = new Enemy(300, 0, player); //test
+		Enemy enemy = new Enemy(300, -300); //test
 		enemies.add(enemy); //test
 		
-		Enemy enemyLight = new EnemyLight(200, 0, player);
+		Enemy enemyLight = new EnemyLight(200, 0);
 		enemies.add(enemyLight); //test
 		
-		Enemy enemyHeavy = new EnemyHeavy(400, 0, player); //test
+		Enemy enemyHeavy = new EnemyHeavy(400, 0); //test
 		enemies.add(enemyHeavy); //test
 		
 		ui = new UI(this, player);

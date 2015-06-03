@@ -1,13 +1,2 @@
-/Background.class
-/Bullet.class
-/Enemy.class
-/EnemyHeavy.class
-/EnemyLight.class
-/Game.class
-/Input.class
-/Player.class
-/UI.class
-/PowerUp.class
-/Enemies/
-/PUpInvinciblity.class
-/WaveCreater.class
+/Wave.class
+/WaveSorter.class
