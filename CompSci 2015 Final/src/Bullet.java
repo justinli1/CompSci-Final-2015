@@ -25,6 +25,19 @@ public class Bullet {
 		vectorize(x, y, targetX, targetY);
 	}
 	
+	public Bullet(int x, int y, int speed, double angle, Player player){
+		this.x = x;
+		this.y = y;
+		this.speed = speed;
+		
+		this.playerReference = player;
+		this.collision = new Rectangle(x, y, width, height);
+		
+		this.targetAngle = angle;
+		Math.toRadians(targetAngle);
+		vectorize(x,y,angle);
+	}
+	
 	private void vectorize(int x, int y, int targetX, int targetY){
 		double xComponent = (targetX - x);
 		double yComponent = (targetY - y);
@@ -32,6 +45,11 @@ public class Bullet {
 		
 		xIncrement = (speed*Math.cos(targetAngle));
 		yIncrement = (speed*Math.sin(targetAngle));
+	}
+	
+	private void vectorize(int x, int y, double angle){
+		xIncrement = (speed*Math.cos(angle));
+		yIncrement = (speed*Math.sin(angle));
 	}
 	
 	public void update(){

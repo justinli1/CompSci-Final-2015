@@ -6,9 +6,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Input implements KeyListener, MouseMotionListener{
-	private Map<Integer, Boolean> key = new HashMap<Integer, Boolean>();
+	public Map<Integer, Boolean> key = new HashMap<Integer, Boolean>();
 	
 	public int mx = 0, my = 0;
+	public boolean hold = false;
 	
 	public void keyPressed(KeyEvent e) {
 		key.put(e.getKeyCode(), true);

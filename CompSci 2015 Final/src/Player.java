@@ -23,6 +23,9 @@ public class Player {
 	private int shootCooldown = 1;
 	private int shootTime;
 	
+	private int bombCooldown = 5;
+	private int bombTime;
+	
 	private BufferedImage sprite;
 	
 	public Player(int x, int y){
@@ -41,6 +44,7 @@ public class Player {
 		
 		this.collision = new Rectangle(x, y, width, height);
 		this.shootTime = (int)System.currentTimeMillis()/100;
+		this.bombTime = (int)System.currentTimeMillis()/100;
 		
 		try {
 			sprite = ImageIO.read(new File("res/player/sprite.png"));
@@ -55,6 +59,7 @@ public class Player {
 		checkBoundary();
 		updateCollision();
 		updateShoot(in);
+		updateBomb(in);
 	}
 	
 	private void updatePosition(Input in){
@@ -78,13 +83,13 @@ public class Player {
 	}
 	
 	public void updateStats(){
-		if(stats[HEALTH] > 3)
+		if(stats[HEALTH] >= 3)
 			stats[HEALTH] = 3;
-		if(stats[POWER] > 3)
+		if(stats[POWER] >= 3)
 			stats[POWER] = 3;
-		if(stats[SPEEDBOOST] > 3)
+		if(stats[SPEEDBOOST] >= 3)
 			stats[SPEEDBOOST] = 3;
-		if(stats[BOMBS] > 3)
+		if(stats[BOMBS] >= 3)
 			stats[BOMBS] = 3;
 		
 		if((int)System.currentTimeMillis()/100 < invincibleTime){ //invul effect, make better
@@ -136,10 +141,21 @@ public class Player {
 	
 	private void updateShoot(Input in){
 		if(in.getKey(KeyEvent.VK_Z) && (int)System.currentTimeMillis()/100 - shootTime > shootCooldown){
-			Bullet test = new Bullet(getXCentre() - 5, y, getXCentre() - 5, 0, 10,null);
-			Game.bullets.add(test);
+			Bullet bullet = new Bullet(getXCentre() - 5, y, getXCentre() - 5, 0, 10,null);
+			Game.bullets.add(bullet);
 			
 			shootTime = (int)System.currentTimeMillis()/100;
+		}
+	}
+	
+	private void updateBomb(Input in){
+		if(in.getKey(KeyEvent.VK_X) && (int)System.currentTimeMillis()/100 - bombTime > bombCooldown && stats[BOMBS] > 0){
+			for(int i = 0; i < 36; i++){
+				Bullet bullet = new Bullet(getXCentre() - 5, y, 10, i*10, null);
+				Game.bullets.add(bullet);
+			}
+			stats[BOMBS] --;
+			bombTime = (int)System.currentTimeMillis()/100;
 		}
 	}
 	

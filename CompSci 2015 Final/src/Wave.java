@@ -1,18 +1,18 @@
-
+ 
 public class Wave {
-	public final int SCREENS = (-1) * Game.HEIGHT;
+	public static final int LENGTH = 5;
+	public static final int WIDTH = 3;
 	
-	private Enemy[][] waveArray = new Enemy[5][3];
+	private Enemy[][] waveArray = new Enemy[LENGTH][WIDTH];
 	private int waveNumber;
 	private int difficulty;
 	private Wave left, right;
 	
-	public Wave(int waveNumber){
-		this.waveNumber = waveNumber;
+	public Wave(){
 		this.difficulty = 0;
 		
-		for(int i = 0; i < 5; i++){
-			for(int j = 0; j < 3; j++){
+		for(int i = 0; i < LENGTH; i++){
+			for(int j = 0; j < WIDTH; j++){
 				randomizeEnemy(i, j);
 			}
 		}
@@ -23,17 +23,17 @@ public class Wave {
 		int random = (int)(Math.random()*10);
 		
 		if(random >= 0 && random < 3){
-			waveArray[i][j] = new Enemy(i * 50 + 51, j * 50 + SCREENS*waveNumber);
+			waveArray[i][j] = new Enemy((i * 120) + 51, j * 50);
 			difficulty += 1;
 		}
 		
-		if(random >= 3 && random < 5){
-			waveArray[i][j] = new EnemyHeavy(i * 50 + 51, j * 50 + SCREENS*waveNumber);
+		else if(random >= 3 && random < 5){
+			waveArray[i][j] = new EnemyHeavy((i * 120) + 51, j * 50);
 			difficulty += 2;
 		}
 		
-		if(random >= 5 && random < 6){
-			waveArray[i][j] = new EnemyLight(i * 50 + 51, j * 50 + SCREENS*waveNumber);
+		else if(random >= 5 && random < 6){
+			waveArray[i][j] = new EnemyLight((i * 120) + 51, j * 50);
 			difficulty += 3;
 		}
 		
@@ -73,5 +73,11 @@ public class Wave {
 		this.right = right;
 	}
 	
+	public int getWaveNumber(){
+		return waveNumber;
+	}
 	
+	public void setWaveNumber(int waveNumber){
+		this.waveNumber = waveNumber;
+	}
 }

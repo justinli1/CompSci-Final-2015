@@ -3,6 +3,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class Enemy {
 	private int x, y;
@@ -18,6 +23,9 @@ public class Enemy {
 	
 	private boolean active;
 	
+	private BufferedImage sprite;
+	
+	
 	public Enemy(int x, int y) {
 		this.x = x;
 		this.y = y;
@@ -26,21 +34,30 @@ public class Enemy {
 		setHealth(3);
 		setSpeed(2);
 		
+		try {
+			setSprite(ImageIO.read(new File("res/enemy/med.png")));
+		} catch (IOException e) {
+			System.out.println("File not found");
+		}
+		
 		this.active = false;
 		this.shootTime = (int)System.currentTimeMillis()/100;
 	}
 	
 	public void update() {
 		updatePosition();
+		updateCollision();
 		
 		if(active){
 			updateShoot();
-			updateCollision();
 		}
 	}
 	
 	private void updatePosition(){
-		y += getSpeed();
+		if(active)
+			y += getSpeed();
+		else
+			y += 1;
 		
 		if(y > Game.HEIGHT)
 			Game.enemies.remove(this);
@@ -79,9 +96,25 @@ public class Enemy {
 	
 	public void draw(Graphics graphics){
 		graphics.setColor(Color.red);
-		graphics.fillRect(x, y, width, height);
+		graphics.drawImage(sprite, x, y, null);
 	}
 	
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
 	public int getXCentre(){
 		return  x + (width/2);
 	}
@@ -132,6 +165,14 @@ public class Enemy {
 
 	public void setHealth(int health) {
 		this.health = health;
+	}
+
+	public BufferedImage getSprite() {
+		return sprite;
+	}
+
+	public void setSprite(BufferedImage sprite) {
+		this.sprite = sprite;
 	}
 	
 	
