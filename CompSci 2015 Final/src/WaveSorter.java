@@ -40,12 +40,10 @@ public class WaveSorter {
 		currentWave++;
 		Enemy[][] enemies = root.getWaveArray();
 		
-		System.out.println(currentWave);
-		
 		for(int i = 0; i < Wave.LENGTH; i++){
 			for(int j = 0; j < Wave.WIDTH; j++){
 				if(enemies[i][j] != null){
-					enemies[i][j].setY(enemies[i][j].getY() + (currentWave * SCREENS));
+					enemies[i][j].setY(enemies[i][j].getY() + (currentWave * SCREENS) - SCREENS/2);
 					Game.enemies.add(enemies[i][j]);
 				}
 			}
@@ -57,7 +55,7 @@ public class WaveSorter {
 	
 	private void initializeBoss(){
 		currentWave++;
-		EnemyBoss boss = new EnemyBoss(307 - 100, currentWave*SCREENS);
+		EnemyBoss boss = new EnemyBoss(307 - 100, currentWave*SCREENS - SCREENS/2 );
 		Game.enemies.add(boss);
 	}
 }

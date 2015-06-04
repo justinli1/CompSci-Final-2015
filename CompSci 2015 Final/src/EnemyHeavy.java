@@ -13,6 +13,7 @@ public class EnemyHeavy extends Enemy{
 		setHeight(75);
 		setShootCooldown(15);
 		setSpeed(1);
+		setHealth(3);
 		
 		try {
 			setSprite(ImageIO.read(new File("res/enemy/heavy.png")));

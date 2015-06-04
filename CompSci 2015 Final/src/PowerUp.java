@@ -48,10 +48,21 @@ public class PowerUp {
 	}
 	
 	public void draw(Graphics graphics){
-		graphics.setColor(Color.cyan);
+		graphics.setColor(Color.black);
 		graphics.drawImage(sprite, x, y, null);
 		
-		graphics.drawString("", x, y);
+		String str = null;
+		if(upgrade[0] == 1)
+			str = "HEALTH";
+		else if(upgrade[1] == 1)
+			str = "POWER";
+		else if(upgrade[2] == 1)
+			str = "SPEED";
+		else if(upgrade[3] == 1)
+			str = "BOMB";
+		else if(upgrade[4] == 1)
+			str = "INVINCIBILITY";
+		graphics.drawString(str, x, y);
 	}
 	
 	public Rectangle2D getCollision(){

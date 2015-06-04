@@ -45,7 +45,7 @@ public class Game extends Canvas implements Runnable{
 	public void init() {
 		player = new Player(200, Game.HEIGHT);
 		
-		WaveSorter waveSorter = new WaveSorter(1);
+		WaveSorter waveSorter = new WaveSorter(5);
 
 		ui = new UI(this, player);
 		score = 0;
@@ -99,6 +99,7 @@ public class Game extends Canvas implements Runnable{
 	
 	//draw things to the screen
 	public void draw() {
+		graphics.setColor(Color.gray);
 		graphics.fillRect(0,0, WIDTH, HEIGHT);
 		
 		if(gameState == GAME_MENU){
@@ -140,13 +141,14 @@ public class Game extends Canvas implements Runnable{
 		
 		for(int i = 0; i < 5; i++){
 			String score = scores.nextLine();
-			graphics.setColor(Color.red);
+			graphics.setColor(Color.blue);
 			
 			graphics.drawString(score, 100, 100 + (i*100));
 		}
 	}
 	
 	private void drawGame(){
+		graphics.setColor(Color.black);
 		graphics.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		ui.draw(graphics);

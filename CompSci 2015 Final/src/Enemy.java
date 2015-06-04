@@ -31,7 +31,7 @@ public class Enemy {
 		this.y = y;
 		this.collision = new Rectangle(x, y, width, height);
 		
-		setHealth(3);
+		setHealth(2);
 		setSpeed(2);
 		
 		try {

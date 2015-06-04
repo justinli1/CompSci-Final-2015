@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -66,7 +67,7 @@ public class Player {
 		if(in.getKey(KeyEvent.VK_SHIFT))
 			speed = 2;
 		else 
-			speed = 5;
+			speed = 5 + stats[SPEEDBOOST];
 		
 		if(in.getKey(KeyEvent.VK_UP)){
 			y-= speed;
@@ -162,6 +163,11 @@ public class Player {
 	public void draw(Graphics graphics){
 		graphics.drawRect(x, y, width, height);
 		graphics.drawImage(sprite, x, y, null);
+		
+		if((int)System.currentTimeMillis()/100 < invincibleTime){ //invul effect, make better
+			graphics.setColor(Color.red);
+			graphics.drawString("Invincible", x, y);
+		}
 	}
 	
 	public int getX(){

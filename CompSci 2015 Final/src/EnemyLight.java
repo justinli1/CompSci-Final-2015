@@ -15,6 +15,7 @@ public class EnemyLight extends Enemy{
 		setHeight(25);	
 		setShootCooldown(8);
 		setSpeed(4);
+		setHealth(1);
 		
 		try {
 			setSprite(ImageIO.read(new File("res/enemy/light.png")));

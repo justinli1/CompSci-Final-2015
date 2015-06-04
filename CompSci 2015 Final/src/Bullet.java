@@ -88,7 +88,10 @@ public class Bullet {
 	}
 	
 	public void draw(Graphics graphics){
-		graphics.setColor(Color.red);
+		if(playerReference != null)
+			graphics.setColor(Color.red);
+		else
+			graphics.setColor(Color.blue);
 		graphics.fillRect((int)x, (int)y, width, height);
 		
 	}
