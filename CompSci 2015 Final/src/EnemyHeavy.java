@@ -11,7 +11,7 @@ public class EnemyHeavy extends Enemy{
 		
 		setWidth(75);
 		setHeight(75);
-		setShootCooldown(15);
+		setShootCooldown(21);
 		setSpeed(1);
 		setHealth(3);
 		

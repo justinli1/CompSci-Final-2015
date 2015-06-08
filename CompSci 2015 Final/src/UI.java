@@ -16,12 +16,13 @@ public class UI {
 	
 	private int x = 0;
 	
-	
-	public UI(Game game, Player player){
+	//keeps track of and displays player stats
+	//also displays multiple backgrounds
+	public UI(Game game, Player player, String directory){
 		this.player = player;
 		
-		bg1 = new Background("res/bg1.jpg", 2);
-		fg1 = new Background("res/fg1.png", 12);
+		bg1 = new Background(directory + "/bg.jpg", 2);
+		fg1 = new Background(directory + "/fg.png", 12);
 	}
 	
 	public void update(){
@@ -60,6 +61,10 @@ public class UI {
 		graphics.drawRect(x + 689, 336, 312, 48);
 		graphics.fillRect(x + 689, 336, 104*bombDisplay, 48);
 		
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
 	}
 	
 }

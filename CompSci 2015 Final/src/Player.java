@@ -93,7 +93,7 @@ public class Player {
 		if(stats[BOMBS] >= 3)
 			stats[BOMBS] = 3;
 		
-		if((int)System.currentTimeMillis()/100 < invincibleTime){ //invul effect, make better
+		if((int)System.currentTimeMillis()/100 < invincibleTime){ //makes player invincibile
 			stats[HEALTH] = 3;
 		}
 		
@@ -114,6 +114,7 @@ public class Player {
 			y = Game.HEIGHT - height;
 	}
 	
+	//checks for powerup collisions
 	private void updateCollision(){
 		this.collision.setRect(x, y, width, height);
 		
@@ -127,6 +128,7 @@ public class Player {
 		}
 	}
 	
+	//adds upgrades to player stats
 	private void performUpgrade(int[] upgrade){
 		for(int i = 0; i < upgrade.length; i++){
 			stats[i] += upgrade[i];
@@ -140,10 +142,28 @@ public class Player {
 		}
 	}
 	
+	
+	//shoots bullets
 	private void updateShoot(Input in){
 		if(in.getKey(KeyEvent.VK_Z) && (int)System.currentTimeMillis()/100 - shootTime > shootCooldown){
-			Bullet bullet = new Bullet(getXCentre() - 5, y, getXCentre() - 5, 0, 10,null);
-			Game.bullets.add(bullet);
+			
+			if(stats[POWER] == 1){
+				Bullet b1 = new Bullet(getXCentre() - 5, y, getXCentre() - 5, 0, 10,null);
+				Game.bullets.add(b1);
+			}
+			
+			else if(stats[POWER] >= 2){
+				Bullet b2 = new Bullet(getXCentre() + 10, y, getXCentre() + 10, 0, 10,null);
+				Bullet b3 = new Bullet(getXCentre() - 25, y, getXCentre() - 25, 0, 10,null);
+				Game.bullets.add(b2);
+				Game.bullets.add(b3);
+			}
+			if(stats[POWER] >= 3){
+				Bullet b4 = new Bullet(getXCentre() + 45, y, getXCentre() + 200, 0, 10,null);
+				Bullet b5 = new Bullet(getXCentre() - 55, y, getXCentre() - 210, 0, 10,null);
+				Game.bullets.add(b4);
+				Game.bullets.add(b5);
+			}
 			
 			shootTime = (int)System.currentTimeMillis()/100;
 		}
@@ -161,10 +181,9 @@ public class Player {
 	}
 	
 	public void draw(Graphics graphics){
-		graphics.drawRect(x, y, width, height);
 		graphics.drawImage(sprite, x, y, null);
 		
-		if((int)System.currentTimeMillis()/100 < invincibleTime){ //invul effect, make better
+		if((int)System.currentTimeMillis()/100 < invincibleTime){
 			graphics.setColor(Color.red);
 			graphics.drawString("Invincible", x, y);
 		}
@@ -216,6 +235,15 @@ public class Player {
 	
 	public int getBombs(){
 		return stats[BOMBS];
+	}
+	
+	public void setInvincibility(int invincibility) {
+		this.stats[INVINCIBILITY] = invincibility;
+		invincibleTime = ((int)System.currentTimeMillis()/100) + (stats[INVINCIBILITY] * 50);
+	}
+	
+	public int getInvincibility(){
+		return stats[INVINCIBILITY];
 	}
 	
 }

@@ -11,6 +11,7 @@ public class Background {
 	private int y;
 	private BufferedImage background;
 	
+	//Scrolling backgrounds
 	public Background(String fileName, int scrollSpeed){
 		this.y = -Game.HEIGHT;
 		
@@ -18,7 +19,7 @@ public class Background {
 		try {
 			this.background = ImageIO.read(new File(fileName));
 		} catch (IOException e) {
-			System.out.println("File not found");
+			System.out.println("File not found " + fileName);
 		}
 		
 		this.scrollSpeed = scrollSpeed;

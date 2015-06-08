@@ -2,6 +2,11 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 
 public class Bullet {
@@ -14,8 +19,10 @@ public class Bullet {
 	private int width = 10, height = 10;
 	private Rectangle2D collision;
 	private Player playerReference;
+	private BufferedImage sprite;
 
-	public Bullet(int x, int y, int targetX, int targetY, int speed,Player player){
+	//creates bullet heading towards target
+	public Bullet(int x, int y, int targetX, int targetY, int speed, Player player){
 		this.x = x;
 		this.y = y;
 		this.speed = speed;
@@ -23,8 +30,18 @@ public class Bullet {
 		this.playerReference = player;
 		this.collision = new Rectangle(x, y, width, height);
 		vectorize(x, y, targetX, targetY);
+		
+		try {
+			if(player != null)
+				sprite = ImageIO.read(new File("res/EBullet.png"));
+			else
+				sprite = ImageIO.read(new File("res/PBullet.png"));
+		} catch (IOException e) {
+			System.out.println("File not found");
+		}
 	}
 	
+	//creates bullet heading at an angle
 	public Bullet(int x, int y, int speed, double angle, Player player){
 		this.x = x;
 		this.y = y;
@@ -36,8 +53,18 @@ public class Bullet {
 		this.targetAngle = angle;
 		Math.toRadians(targetAngle);
 		vectorize(x,y,angle);
+		
+		try {
+			if(player != null)
+				sprite = ImageIO.read(new File("res/EBullet.png"));
+			else
+				sprite = ImageIO.read(new File("res/PBullet.png"));
+		} catch (IOException e) {
+			System.out.println("File not found");
+		}
 	}
 	
+	//vector math for normalized movement
 	private void vectorize(int x, int y, int targetX, int targetY){
 		double xComponent = (targetX - x);
 		double yComponent = (targetY - y);
@@ -66,6 +93,7 @@ public class Bullet {
 		}
 	}
 	
+	//checks for player collision if from an enemy, else checks for enemy collision
 	private void updateCollision(Player player){
 		collision.setRect(x, y, width, height);
 		
@@ -93,6 +121,7 @@ public class Bullet {
 		else
 			graphics.setColor(Color.blue);
 		graphics.fillRect((int)x, (int)y, width, height);
+		graphics.drawImage(sprite, (int)x, (int)y, null);
 		
 	}
 }

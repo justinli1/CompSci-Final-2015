@@ -30,24 +30,29 @@ public class Game extends Canvas implements Runnable{
 	public static ArrayList<PowerUp> powerUps = new ArrayList<PowerUp>();
 		
 	private UI ui;
+	private int stage;
 	public static int score;
 	
 	public static Player player;
+	public static EnemyBoss boss;
 	
-	private Scanner scores;
+	private Scores scores;
 	
-	
-	public static final int GAME_MENU = 4, GAME_PLAY = 0, GAME_SCORES = 2, GAME_HELP = 1;
+	public static final int GAME_MENU = 3, GAME_PLAY = 0, GAME_SCORES = 1, GAME_END = 2;
 	private int gameState = GAME_MENU;
 	private int menuSelection = GAME_PLAY;
 	
 	//initialize game objects, load media(pics, music, etc)
 	public void init() {
-		player = new Player(200, Game.HEIGHT);
+		player = new Player(307, Game.HEIGHT);
 		
 		WaveSorter waveSorter = new WaveSorter(5);
-
-		ui = new UI(this, player);
+		boss = waveSorter.getBoss();
+		
+		scores = new Scores("res/scores.txt");
+		
+		stage = 1;
+		ui = new UI(this, player, "res/stage" + stage);
 		score = 0;
 		
 	}
@@ -58,19 +63,26 @@ public class Game extends Canvas implements Runnable{
 		if(gameState == GAME_MENU){
 			updateMenu();
 		}
-		
 		if(gameState == GAME_PLAY)
 			updateGame();
 		
+		if(gameState == GAME_END){
+			System.exit(0);
+		}
+		
+		if(gameState == GAME_SCORES)
+			updateScores();
+		
 	}
 	
+	//updates menu buttons
 	private void updateMenu(){
 		
 		if(input.getKey(KeyEvent.VK_UP) && menuSelection > 0){
 			menuSelection--;
 			input.key.put(KeyEvent.VK_UP, false);
 		}
-		if(input.getKey(KeyEvent.VK_DOWN) && menuSelection < 2){
+		else if(input.getKey(KeyEvent.VK_DOWN) && menuSelection < 2){
 			menuSelection++;
 			input.key.put(KeyEvent.VK_DOWN, false);
 		}
@@ -80,8 +92,25 @@ public class Game extends Canvas implements Runnable{
 		}
 	}
 	
+	//updates game objects
 	private void updateGame(){
+		if(stage == 3){
+			gameState = GAME_MENU;
+		}
+		
 		player.update(input);
+		
+		if(player.getHealth() <= 0){
+			player = new Player(307, Game.HEIGHT);
+			ui.setPlayer(player);
+			player.setInvincibility(1);
+			score -= 2000;
+		}
+		
+		if(boss.getHealth() <= 0){
+			startNewStage();
+		}
+		
 		for(int i = 0; i < bullets.size(); i++){
 			bullets.get(i).update();
 		}
@@ -95,6 +124,20 @@ public class Game extends Canvas implements Runnable{
 		}
 		
 		ui.update();
+	}
+	
+	//resets objects for new stage
+	private void startNewStage(){
+		stage++;
+		ui = new UI(this, player, "res/stage" + stage);
+		WaveSorter waveSorter = new WaveSorter(5);
+		boss = waveSorter.getBoss();
+	}
+	
+	//sorts score ranks
+	private void updateScores(){
+		scores.setRanks(scores.head);
+		scores.rank = 0;
 	}
 	
 	//draw things to the screen
@@ -115,6 +158,7 @@ public class Game extends Canvas implements Runnable{
 		}
 	}
 	
+	//menu buttons
 	private void drawMenu(){
 		graphics.setColor(Color.blue);
 		
@@ -127,26 +171,19 @@ public class Game extends Canvas implements Runnable{
 		
 		graphics.setColor(Color.black);
 		graphics.drawString("PLAY" ,75, 75);
-		graphics.drawString("HELP", 75, 225);
-		graphics.drawString("HIGHSCORES", 75, 375);
+		graphics.drawString("HIGHSCORES", 75, 225);
+		graphics.drawString("EXIT", 75, 375);
 	}
 	
+	//displays highscores in order
 	private void drawScores(){
-		try {
-			scores = new Scanner(new File("res/scores.txt"));
-		} catch (FileNotFoundException e) {
-			System.out.println("no file");
-		}
-		
-		
-		for(int i = 0; i < 5; i++){
-			String score = scores.nextLine();
-			graphics.setColor(Color.blue);
-			
-			graphics.drawString(score, 100, 100 + (i*100));
+		for(int i = 0; i < scores.size; i++){
+			graphics.setColor(Color.red);
+			graphics.drawString(i+1 + " " + scores.names[i] + " " + scores.scores[i], 100, 100 + 50*i);
 		}
 	}
 	
+	//draws all game objects
 	private void drawGame(){
 		graphics.setColor(Color.black);
 		graphics.fillRect(0, 0, WIDTH, HEIGHT);

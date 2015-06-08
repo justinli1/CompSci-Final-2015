@@ -4,6 +4,7 @@ public class WaveSorter {
 	
 	private Wave head;
 	private int currentWave = 0;
+	private EnemyBoss boss;
 	
 	public WaveSorter(int waves){
 		for(int i = 0; i < waves; i++){
@@ -14,6 +15,8 @@ public class WaveSorter {
 		initializeBoss();
 	}
 	
+	//Uses tree sort to sort randomly generated waves by difficulty
+	//places more difficult waves at the end of the stage
 	public void insert(Wave root, Wave wave){
 		if(head == null)
 			head = wave;
@@ -33,6 +36,7 @@ public class WaveSorter {
 			insert(root.getRight(), wave);
 	}
 	
+	//initializes the enemies inside each wave with inorder traversal
 	public void initializeEnemies(Wave root){
 		if(root.getLeft() != null)
 			initializeEnemies(root.getLeft());
@@ -52,10 +56,14 @@ public class WaveSorter {
 			initializeEnemies(root.getRight());
 	}
 	
-	
+	//places boss at end of stage
 	private void initializeBoss(){
 		currentWave++;
-		EnemyBoss boss = new EnemyBoss(307 - 100, currentWave*SCREENS - SCREENS/2 );
+		boss = new EnemyBoss(307 - 37 , currentWave*SCREENS - SCREENS/2 );
 		Game.enemies.add(boss);
+	}
+	
+	public EnemyBoss getBoss(){
+		return boss;
 	}
 }

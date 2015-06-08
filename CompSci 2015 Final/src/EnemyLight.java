@@ -13,7 +13,7 @@ public class EnemyLight extends Enemy{
 		
 		setWidth(25);
 		setHeight(25);	
-		setShootCooldown(8);
+		setShootCooldown(15);
 		setSpeed(4);
 		setHealth(1);
 		

@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Input implements KeyListener, MouseMotionListener{
+	//Map that holds booleans for any given key pressed
 	public Map<Integer, Boolean> key = new HashMap<Integer, Boolean>();
 	
 	public int mx = 0, my = 0;
+	
 	public boolean hold = false;
 	
 	public void keyPressed(KeyEvent e) {
@@ -20,7 +22,7 @@ public class Input implements KeyListener, MouseMotionListener{
 	}
 
 	public void keyTyped(KeyEvent e) {
-
+		
 	}
 	
 	public boolean getKey(int keyCode){

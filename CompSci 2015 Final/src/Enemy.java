@@ -18,7 +18,7 @@ public class Enemy {
  	private int health;
  	private int speed;
  	
-	private int shootCooldown = 12;
+	private int shootCooldown = 18;
 	private int shootTime;
 	
 	private boolean active;
@@ -41,12 +41,19 @@ public class Enemy {
 		}
 		
 		this.active = false;
-		this.shootTime = (int)System.currentTimeMillis()/100;
+		this.setShootTime((int)System.currentTimeMillis()/100);
 	}
 	
 	public void update() {
 		updatePosition();
 		updateCollision();
+		
+		if(health <= 0){
+			Game.enemies.remove(this);
+			Game.score += 1000;
+			
+			createPowerUp();
+		}
 		
 		if(active){
 			updateShoot();
@@ -63,15 +70,9 @@ public class Enemy {
 			Game.enemies.remove(this);
 		if(y < Game.HEIGHT && y > 0)
 			active = true;
-		
-		if(health <= 0){
-			Game.enemies.remove(this);
-			Game.score += 1000;
-			
-			createPowerUp();
-		}
 	}
 	
+	//randomly creates a powerup once destroyed
 	private void createPowerUp(){
 		int random = (int)(Math.random()*10);
 		
@@ -86,7 +87,7 @@ public class Enemy {
 			Bullet test = new Bullet(getXCentre(), getYCentre(), Game.player.getXCentre(), Game.player.getYCentre(), 5, Game.player);
 			Game.bullets.add(test);
 			
-			shootTime = (int)System.currentTimeMillis()/100;
+			setShootTime((int)System.currentTimeMillis()/100);
 		}
 	}
 	
@@ -173,6 +174,14 @@ public class Enemy {
 
 	public void setSprite(BufferedImage sprite) {
 		this.sprite = sprite;
+	}
+
+	public int getShootTime() {
+		return shootTime;
+	}
+
+	public void setShootTime(int shootTime) {
+		this.shootTime = shootTime;
 	}
 	
 	
